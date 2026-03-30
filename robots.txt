@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /swagger-ui/
+
+Sitemap: https://smartgate.kz/sitemap.xml

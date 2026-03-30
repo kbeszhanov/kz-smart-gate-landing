@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANPR камера: как работает распознавание номеров в 2026 году — KZ Smart Gate</title>
+    <meta name="description" content="Подробный разбор технологии ANPR: как AI камеры распознают госномера с точностью 99.9%, Deep Learning, ночное видение, интеграция с облачными платформами.">
+    <meta name="keywords" content="ANPR камера, распознавание номеров, LPR технология, AI камера, Deep Learning номера, KZ Smart Gate">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://smartgate.kz/blog/anpr-camera-kak-rabotaet.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://smartgate.kz/blog/anpr-camera-kak-rabotaet.html">
+    <meta property="og:title" content="ANPR камера: как работает распознавание номеров в 2026 году">
+    <meta property="og:description" content="Подробный разбор технологии ANPR: AI, Deep Learning, точность 99.9%.">
+    <meta property="og:image" content="https://smartgate.kz/og-image.png">
+    <meta property="og:locale" content="ru_KZ">
+    <meta property="article:published_time" content="2026-03-30">
+    <meta property="article:author" content="KZ Smart Gate">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0f1a'/%3E%3Crect width='32' height='32' rx='7' fill='none' stroke='%230ea5e9' stroke-width='1.5' opacity='0.6'/%3E%3Ctext x='16' y='22' font-family='system-ui' font-size='14' font-weight='800' fill='%230ea5e9' text-anchor='middle'%3ESG%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-deep: #050810; --bg-primary: #0b0f1a; --bg-card: #0f1629;
+            --bg-card-hover: #131b33;
+            --cyan: #0ea5e9; --cyan-light: #38bdf8; --cyan-pale: #7dd3fc;
+            --cyan-glow: rgba(14, 165, 233, 0.15);
+            --text-primary: #e2e8f0; --text-secondary: #94a3b8; --text-muted: #64748b;
+            --border: rgba(14, 165, 233, 0.12); --border-hover: rgba(14, 165, 233, 0.3);
+            --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+        a { color: inherit; text-decoration: none; }
+        .gradient-text { background: linear-gradient(135deg, var(--cyan), var(--cyan-light), var(--cyan-pale)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; background: rgba(5, 8, 16, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+        .nav-logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+        .nav-logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(14,165,233,0.05)); border: 1px solid rgba(14,165,233,0.25); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--cyan); }
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+        .nav-links a { padding: 8px 16px; font-size: 14px; font-weight: 500; color: var(--text-secondary); border-radius: 8px; transition: color 0.3s, background 0.3s; }
+        .nav-links a:hover { color: var(--text-primary); background: rgba(14,165,233,0.06); }
+        .btn-nav { padding: 10px 22px; font-size: 13px; font-weight: 600; font-family: var(--font-body); background: var(--cyan); color: #000; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
+        .btn-nav:hover { background: var(--cyan-light); box-shadow: 0 0 20px var(--cyan-glow); }
+        .nav-mobile-toggle { display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; padding: 8px; }
+        .nav-mobile-toggle svg { width: 24px; height: 24px; }
+        .nav-mobile-menu { display: none; }
+
+        .article-header { padding: 140px 0 40px; text-align: center; }
+        .article-header .tag { display: inline-block; padding: 4px 14px; background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 20px; }
+        .article-header h1 { font-size: clamp(28px, 4.5vw, 44px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 16px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .article-meta { display: flex; justify-content: center; gap: 24px; font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+
+        .article-body { max-width: 720px; margin: 0 auto; padding: 0 24px 100px; }
+        .article-body h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid var(--border); }
+        .article-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+        .article-body h3 { font-size: 18px; font-weight: 700; margin: 32px 0 12px; color: var(--cyan-light); }
+        .article-body p { font-size: 16px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px; }
+        .article-body ul, .article-body ol { margin: 0 0 20px 24px; color: var(--text-secondary); }
+        .article-body li { font-size: 16px; line-height: 1.8; margin-bottom: 8px; }
+        .article-body strong { color: var(--text-primary); font-weight: 600; }
+        .article-body a { color: var(--cyan); border-bottom: 1px solid rgba(14,165,233,0.3); transition: border-color 0.3s; }
+        .article-body a:hover { border-bottom-color: var(--cyan); }
+
+        .info-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin: 28px 0; }
+        .info-box-title { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 12px; }
+
+        .related { padding: 0 24px 100px; max-width: 1200px; margin: 0 auto; }
+        .related h2 { font-size: 24px; font-weight: 700; margin-bottom: 32px; text-align: center; border-top: none; padding-top: 0; }
+        .related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .related-card { display: flex; flex-direction: column; padding: 28px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-decoration: none; color: inherit; }
+        .related-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 30px var(--cyan-glow); }
+        .related-card .blog-card-tag { display: inline-block; width: fit-content; padding: 4px 12px; background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 12px; }
+        .related-card h3 { font-size: 16px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; transition: color 0.3s; }
+        .related-card:hover h3 { color: var(--cyan-light); }
+        .related-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+        .article-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; text-align: center; margin: 48px 0; }
+        .article-cta h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+        .article-cta p { color: var(--text-secondary); margin-bottom: 24px; font-size: 15px; }
+        .article-cta .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--cyan); color: #000; font-family: var(--font-body); font-size: 14px; font-weight: 600; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; }
+        .article-cta .btn:hover { background: var(--cyan-light); box-shadow: 0 0 30px var(--cyan-glow); }
+
+        .footer { border-top: 1px solid var(--border); padding: 40px 0; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--text-muted); }
+        .footer a { color: var(--text-secondary); transition: color 0.3s; }
+        .footer a:hover { color: var(--cyan); }
+        .footer-links { display: flex; gap: 24px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-mobile-toggle { display: block; }
+            .nav-mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: rgba(5, 8, 16, 0.97); backdrop-filter: blur(20px); z-index: 99; padding: 32px 24px; }
+            .nav-mobile-menu.open { display: flex; flex-direction: column; gap: 8px; }
+            .nav-mobile-menu a { display: block; padding: 16px 0; font-size: 18px; font-weight: 600; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+            .related-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; text-align: center; gap: 16px; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "ANPR камера: как работает распознавание номеров в 2026 году",
+        "description": "Подробный разбор технологии ANPR: AI, Deep Learning, ночное видение, интеграция с облачными платформами.",
+        "datePublished": "2026-03-30",
+        "author": { "@type": "Organization", "name": "KZ Smart Gate", "url": "https://smartgate.kz" },
+        "publisher": { "@type": "Organization", "name": "KZ Smart Gate", "url": "https://smartgate.kz" }
+    }
+    </script>
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><div class="nav-logo-icon">SG</div>KZ Smart<span class="gradient-text"> Gate</span></a>
+            <div class="nav-links">
+                <a href="/">Главная</a>
+                <a href="/blog/">Блог</a>
+                <a href="https://app.smartgate.kz" class="btn-nav">Войти</a>
+            </div>
+            <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-mobile-menu').classList.toggle('open')" aria-label="Меню">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+        </div>
+        <div class="nav-mobile-menu">
+            <a href="/">Главная</a>
+            <a href="/blog/">Блог</a>
+            <a href="https://app.smartgate.kz">Войти в систему</a>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <header class="article-header">
+                <div class="container">
+                    <div class="tag">Технологии</div>
+                    <h1>ANPR камера: как работает распознавание номеров в 2026 году</h1>
+                    <div class="article-meta">
+                        <span>30 марта 2026</span>
+                        <span>7 мин чтения</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="article-body">
+                <h2>Что такое ANPR</h2>
+                <p><strong>ANPR</strong> (Automatic Number Plate Recognition) — это технология автоматического распознавания государственных регистрационных номеров транспортных средств с помощью камер и искусственного интеллекта. Также известна как LPR (License Plate Recognition) или АЛПР (автоматическое распознавание номерных знаков).</p>
+                <p>Современные ANPR камеры способны распознавать номера <strong>со скоростью менее 100 миллисекунд</strong> с точностью выше 99%, работая круглосуточно при любых погодных условиях.</p>
+
+                <h2>Как устроена ANPR камера</h2>
+                <p>ANPR камера — это не просто видеокамера. Это специализированное устройство, которое совмещает в себе несколько компонентов:</p>
+                <ul>
+                    <li><strong>Оптический модуль</strong> — высококачественный объектив с переменным фокусным расстоянием (обычно 2.7-12 мм), адаптированный под расстояние до объекта</li>
+                    <li><strong>Матрица (сенсор)</strong> — от 2 до 5 мегапикселей. Больше — не значит лучше; важнее размер пикселя и чувствительность</li>
+                    <li><strong>ИК-подсветка</strong> — инфракрасные светодиоды для работы в темноте. Номерные знаки имеют отражающее покрытие, что обеспечивает чёткое изображение даже ночью</li>
+                    <li><strong>Процессор (SoC)</strong> — встроенный чип с нейронным ускорителем для запуска AI-моделей распознавания прямо на камере</li>
+                    <li><strong>Коммуникационный модуль</strong> — Ethernet, WiFi, MQTT для передачи результатов распознавания</li>
+                </ul>
+
+                <h2>Этапы распознавания номера</h2>
+
+                <h3>1. Захват изображения</h3>
+                <p>Камера непрерывно анализирует видеопоток. При обнаружении движения (или срабатывании датчика петли) камера делает серию снимков с высокой экспозицией для чёткой фиксации номера.</p>
+
+                <h3>2. Детекция номерной пластины</h3>
+                <p>Нейронная сеть (обычно YOLO или SSD) обнаруживает на изображении прямоугольную область номерного знака. Современные модели находят номер даже под углом до 45 градусов.</p>
+
+                <h3>3. Сегментация символов</h3>
+                <p>Найденная область нормализуется (выравнивание перспективы, улучшение контраста) и разбивается на отдельные символы. Для номеров разных стран используются разные шаблоны.</p>
+
+                <h3>4. Распознавание символов (OCR)</h3>
+                <p>Каждый символ классифицируется с помощью свёрточной нейронной сети (CNN). Камера выдаёт текст номера и <strong>уровень уверенности</strong> (confidence) — от 0 до 100%.</p>
+
+                <h3>5. Постобработка</h3>
+                <p>Результат проверяется по шаблонам номерных знаков страны. Например, казахстанский номер должен содержать 3 цифры и 3 буквы. Если символ распознан неуверенно, он заменяется наиболее вероятным вариантом.</p>
+
+                <div class="info-box">
+                    <div class="info-box-title">ФАКТ</div>
+                    <p>Современные ANPR камеры, которые использует KZ Smart Gate, распознают номерные знаки <strong>130+ стран</strong>, включая все типы казахстанских номеров — легковые, грузовые, дипломатические и транзитные.</p>
+                </div>
+
+                <h2>Edge AI vs облачное распознавание</h2>
+                <p>Существует два подхода к распознаванию номеров:</p>
+                <ul>
+                    <li><strong>Edge AI (на камере)</strong> — распознавание выполняется прямо на устройстве. Преимущества: работает без интернета, минимальная задержка (&lt;100 мс), не зависит от облака</li>
+                    <li><strong>Облачное распознавание</strong> — камера отправляет изображение на сервер. Преимущества: мощнее модели, проще обновлять. Недостатки: зависимость от сети, задержка, трафик</li>
+                </ul>
+                <p>KZ Smart Gate использует камеры с <strong>Edge AI</strong> — распознавание происходит на камере, а в облако передаётся только текст номера и метаданные через протокол MQTT. Это обеспечивает мгновенную реакцию и минимальный трафик.</p>
+
+                <h2>Ключевые характеристики ANPR камер</h2>
+                <ul>
+                    <li><strong>Точность распознавания</strong> — 99.9% в хороших условиях, 95%+ при загрязнённых номерах</li>
+                    <li><strong>Скорость обработки</strong> — менее 100 мс от момента появления автомобиля до результата</li>
+                    <li><strong>Рабочие условия</strong> — от -40°C до +60°C, IP67 (пыле- и влагозащита)</li>
+                    <li><strong>Ночной режим</strong> — ИК-подсветка до 15 м, распознавание в полной темноте</li>
+                    <li><strong>Дополнительные данные</strong> — цвет автомобиля, марка, модель, год выпуска</li>
+                </ul>
+
+                <h2>Применение ANPR в Казахстане</h2>
+                <p>ANPR технология активно внедряется в Казахстане:</p>
+                <ul>
+                    <li><strong>Парковки и ЖК</strong> — автоматический контроль въезда и оплата</li>
+                    <li><strong>Бизнес-центры</strong> — учёт корпоративного транспорта</li>
+                    <li><strong>Частные дома</strong> — автоматическое открытие ворот для авторизованных авто</li>
+                    <li><strong>Дорожные системы</strong> — фиксация нарушений, контроль скорости</li>
+                </ul>
+
+                <div class="article-cta">
+                    <h3>Хотите внедрить ANPR на вашем объекте?</h3>
+                    <p>KZ Smart Gate предлагает готовые решения с ANPR камерами для любого типа объекта.</p>
+                    <a href="tel:+77012797953" class="btn">Позвонить: +7 701 279 7953</a>
+                </div>
+            </div>
+        </article>
+
+        <section class="related">
+            <h2>Читайте также</h2>
+            <div class="related-grid">
+                <a href="/blog/kak-avtomatizirovat-parking-v-zhk.html" class="related-card">
+                    <div class="blog-card-tag">Паркинг</div>
+                    <h3>Как автоматизировать паркинг в ЖК: полное руководство</h3>
+                    <p>Пошаговая инструкция по внедрению автоматической системы контроля въезда.</p>
+                </a>
+                <a href="/blog/kaspi-oplata-parkovki.html" class="related-card">
+                    <div class="blog-card-tag">Интеграции</div>
+                    <h3>Оплата парковки через Kaspi: как это работает</h3>
+                    <p>Как подключить приём оплаты за парковку через Kaspi Платежи.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 KZ Smart Gate. Все права защищены.</span>
+            <div class="footer-links">
+                <a href="/">Главная</a>
+                <a href="/blog/">Блог</a>
+                <a href="https://app.smartgate.kz">Платформа</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

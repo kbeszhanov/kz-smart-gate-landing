@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог — KZ Smart Gate | Статьи о контроле доступа и ANPR</title>
+    <meta name="description" content="Блог KZ Smart Gate — статьи о технологиях ANPR, автоматизации парковок, интеграции с Kaspi и управлении шлагбаумами в Казахстане.">
+    <meta name="keywords" content="ANPR блог, автоматизация паркинга, Kaspi оплата, контроль въезда Казахстан, распознавание номеров статьи">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://smartgate.kz/blog/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smartgate.kz/blog/">
+    <meta property="og:title" content="Блог — KZ Smart Gate">
+    <meta property="og:description" content="Статьи о технологиях контроля доступа, ANPR камерах и автоматизации парковок.">
+    <meta property="og:image" content="https://smartgate.kz/og-image.png">
+    <meta property="og:locale" content="ru_KZ">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0f1a'/%3E%3Crect width='32' height='32' rx='7' fill='none' stroke='%230ea5e9' stroke-width='1.5' opacity='0.6'/%3E%3Ctext x='16' y='22' font-family='system-ui' font-size='14' font-weight='800' fill='%230ea5e9' text-anchor='middle'%3ESG%3C/text%3E%3C/svg%3E">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-deep: #050810;
+            --bg-primary: #0b0f1a;
+            --bg-card: #0f1629;
+            --bg-card-hover: #131b33;
+            --cyan: #0ea5e9;
+            --cyan-light: #38bdf8;
+            --cyan-pale: #7dd3fc;
+            --cyan-glow: rgba(14, 165, 233, 0.15);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(14, 165, 233, 0.12);
+            --border-hover: rgba(14, 165, 233, 0.3);
+            --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-light), var(--cyan-pale));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 0 24px;
+            background: rgba(5, 8, 16, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 var(--border);
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 72px;
+        }
+        .nav-logo {
+            font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .nav-logo-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(14,165,233,0.05));
+            border: 1px solid rgba(14,165,233,0.25);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--cyan);
+        }
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+        .nav-links a {
+            padding: 8px 16px; font-size: 14px; font-weight: 500;
+            color: var(--text-secondary); border-radius: 8px;
+            transition: color 0.3s, background 0.3s;
+        }
+        .nav-links a:hover { color: var(--text-primary); background: rgba(14,165,233,0.06); }
+        .btn-nav {
+            padding: 10px 22px; font-size: 13px; font-weight: 600;
+            font-family: var(--font-body);
+            background: var(--cyan); color: #000; border: none; border-radius: 10px;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .btn-nav:hover { background: var(--cyan-light); box-shadow: 0 0 20px var(--cyan-glow); }
+
+        .nav-mobile-toggle {
+            display: none; background: none; border: none; color: var(--text-primary);
+            cursor: pointer; padding: 8px;
+        }
+        .nav-mobile-toggle svg { width: 24px; height: 24px; }
+        .nav-mobile-menu { display: none; }
+
+        /* BLOG PAGE HEADER */
+        .blog-page-header {
+            padding: 140px 0 60px;
+            text-align: center;
+        }
+        .blog-page-header h1 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .blog-page-header p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* BLOG GRID */
+        .blog-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            padding-bottom: 120px;
+        }
+        .blog-card {
+            display: flex; flex-direction: column;
+            padding: 32px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none; color: inherit;
+        }
+        .blog-card:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 30px var(--cyan-glow);
+        }
+        .blog-card-tag {
+            display: inline-block; width: fit-content;
+            padding: 4px 12px;
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.15);
+            border-radius: 6px;
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            color: var(--cyan); letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .blog-card h3 {
+            font-size: 17px; font-weight: 700;
+            letter-spacing: -0.3px; line-height: 1.4;
+            margin-bottom: 10px; transition: color 0.3s;
+        }
+        .blog-card:hover h3 { color: var(--cyan-light); }
+        .blog-card p {
+            font-size: 14px; color: var(--text-secondary);
+            line-height: 1.65; flex-grow: 1; margin-bottom: 20px;
+        }
+        .blog-card-meta {
+            display: flex; justify-content: space-between;
+            font-size: 12px; color: var(--text-muted);
+            padding-top: 16px; border-top: 1px solid var(--border);
+        }
+        .blog-card-read { font-family: var(--font-mono); }
+
+        /* FOOTER */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+        }
+        .footer-inner {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 13px; color: var(--text-muted);
+        }
+        .footer a { color: var(--text-secondary); transition: color 0.3s; }
+        .footer a:hover { color: var(--cyan); }
+        .footer-links { display: flex; gap: 24px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .blog-list { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-mobile-toggle { display: block; }
+            .nav-mobile-menu {
+                display: none; position: fixed;
+                top: 72px; left: 0; right: 0; bottom: 0;
+                background: rgba(5, 8, 16, 0.97);
+                backdrop-filter: blur(20px); z-index: 99;
+                padding: 32px 24px;
+            }
+            .nav-mobile-menu.open { display: flex; flex-direction: column; gap: 8px; }
+            .nav-mobile-menu a {
+                display: block; padding: 16px 0; font-size: 18px; font-weight: 600;
+                color: var(--text-secondary); border-bottom: 1px solid var(--border);
+            }
+            .blog-list { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; text-align: center; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <div class="nav-logo-icon">SG</div>
+                KZ Smart<span class="gradient-text"> Gate</span>
+            </a>
+            <div class="nav-links">
+                <a href="/">Главная</a>
+                <a href="/blog/" style="color: var(--cyan);">Блог</a>
+                <a href="https://app.smartgate.kz" class="btn-nav">Войти</a>
+            </div>
+            <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-mobile-menu').classList.toggle('open')" aria-label="Меню">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+        </div>
+        <div class="nav-mobile-menu">
+            <a href="/" onclick="document.querySelector('.nav-mobile-menu').classList.remove('open')">Главная</a>
+            <a href="/blog/" onclick="document.querySelector('.nav-mobile-menu').classList.remove('open')">Блог</a>
+            <a href="https://app.smartgate.kz">Войти в систему</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- PAGE HEADER -->
+        <section class="blog-page-header">
+            <div class="container">
+                <h1>Блог KZ Smart<span class="gradient-text"> Gate</span></h1>
+                <p>Статьи о технологиях контроля доступа, ANPR камерах, автоматизации парковок и интеграции с Kaspi</p>
+            </div>
+        </section>
+
+        <!-- BLOG ARTICLES LIST -->
+        <section>
+            <div class="container">
+                <div class="blog-list">
+                    <a href="/blog/kak-avtomatizirovat-parking-v-zhk.html" class="blog-card">
+                        <div class="blog-card-tag">Паркинг</div>
+                        <h3>Как автоматизировать паркинг в ЖК: полное руководство</h3>
+                        <p>Пошаговая инструкция по внедрению автоматической системы контроля въезда на парковку жилого комплекса.</p>
+                        <div class="blog-card-meta">
+                            <span>30 марта 2026</span>
+                            <span class="blog-card-read">5 мин</span>
+                        </div>
+                    </a>
+
+                    <a href="/blog/anpr-camera-kak-rabotaet.html" class="blog-card">
+                        <div class="blog-card-tag">Технологии</div>
+                        <h3>ANPR камера: как работает распознавание номеров в 2026 году</h3>
+                        <p>Разбираемся в технологии автоматического распознавания госномеров: AI, Deep Learning, точность 99.9%.</p>
+                        <div class="blog-card-meta">
+                            <span>30 марта 2026</span>
+                            <span class="blog-card-read">7 мин</span>
+                        </div>
+                    </a>
+
+                    <a href="/blog/kaspi-oplata-parkovki.html" class="blog-card">
+                        <div class="blog-card-tag">Интеграции</div>
+                        <h3>Оплата парковки через Kaspi: как это работает</h3>
+                        <p>Как подключить приём оплаты за парковку через Kaspi Платежи и автоматически открывать шлагбаум.</p>
+                        <div class="blog-card-meta">
+                            <span>30 марта 2026</span>
+                            <span class="blog-card-read">4 мин</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <span>&copy; 2026 KZ Smart Gate. Все права защищены.</span>
+                <div class="footer-links">
+                    <a href="/">Главная</a>
+                    <a href="/blog/">Блог</a>
+                    <a href="https://app.smartgate.kz">Платформа</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
