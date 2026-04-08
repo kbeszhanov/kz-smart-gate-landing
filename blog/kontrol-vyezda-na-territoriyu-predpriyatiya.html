@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3910NFPPM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-B3910NFPPM');
+    </script>
+    <title>Контроль въезда на территорию предприятия — автоматизация с ANPR камерой</title>
+    <meta name="description" content="Как организовать автоматический контроль въезда транспорта на территорию предприятия в Казахстане. ANPR камера, белый/чёрный списки, гостевые пропуска, аналитика и автономная работа без интернета.">
+    <meta name="keywords" content="контроль въезда на территорию, контроль доступа транспорта предприятие, автоматический пропуск автомобилей, система контроля доступа транспорта, ANPR для предприятия, учёт транспорта на территории, пропускная система автомобилей, контроль въезда Казахстан">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="4b9iuNLSzcFWWpySPKEH_xB7DP66U8U_wah2XqoXc5c">
+    <link rel="canonical" href="https://smartgate.kz/blog/kontrol-vyezda-na-territoriyu-predpriyatiya.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://smartgate.kz/blog/kontrol-vyezda-na-territoriyu-predpriyatiya.html">
+    <meta property="og:title" content="Контроль въезда на территорию предприятия — автоматизация с ANPR камерой">
+    <meta property="og:description" content="Автоматический контроль доступа транспорта на предприятии: ANPR камера, белый/чёрный списки, гостевые пропуска, отчёты и автономная работа.">
+    <meta property="og:image" content="https://smartgate.kz/og-image.png">
+    <meta property="og:locale" content="ru_KZ">
+    <meta property="article:published_time" content="2026-04-09">
+    <meta property="article:author" content="KZ Smart Gate">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0f1a'/%3E%3Crect width='32' height='32' rx='7' fill='none' stroke='%230ea5e9' stroke-width='1.5' opacity='0.6'/%3E%3Ctext x='16' y='22' font-family='system-ui' font-size='14' font-weight='800' fill='%230ea5e9' text-anchor='middle'%3ESG%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-deep: #050810; --bg-primary: #0b0f1a; --bg-card: #0f1629;
+            --bg-card-hover: #131b33;
+            --cyan: #0ea5e9; --cyan-light: #38bdf8; --cyan-pale: #7dd3fc;
+            --cyan-glow: rgba(14, 165, 233, 0.15);
+            --text-primary: #e2e8f0; --text-secondary: #94a3b8; --text-muted: #64748b;
+            --border: rgba(14, 165, 233, 0.12); --border-hover: rgba(14, 165, 233, 0.3);
+            --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+        a { color: inherit; text-decoration: none; }
+        .gradient-text { background: linear-gradient(135deg, var(--cyan), var(--cyan-light), var(--cyan-pale)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; background: rgba(5, 8, 16, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+        .nav-logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+        .nav-logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(14,165,233,0.05)); border: 1px solid rgba(14,165,233,0.25); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--cyan); }
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+        .nav-links a { padding: 8px 16px; font-size: 14px; font-weight: 500; color: var(--text-secondary); border-radius: 8px; transition: color 0.3s, background 0.3s; }
+        .nav-links a:hover { color: var(--text-primary); background: rgba(14,165,233,0.06); }
+        .btn-nav { padding: 10px 22px; font-size: 13px; font-weight: 600; font-family: var(--font-body); background: var(--cyan); color: #000; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
+        .btn-nav:hover { background: var(--cyan-light); box-shadow: 0 0 20px var(--cyan-glow); }
+        .nav-mobile-toggle { display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; padding: 8px; }
+        .nav-mobile-toggle svg { width: 24px; height: 24px; }
+        .nav-mobile-menu { display: none; }
+
+        .article-header { padding: 140px 0 40px; text-align: center; }
+        .article-header .tag { display: inline-block; padding: 4px 14px; background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 20px; }
+        .article-header h1 { font-size: clamp(28px, 4.5vw, 44px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 16px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .article-meta { display: flex; justify-content: center; gap: 24px; font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+
+        .article-body { max-width: 720px; margin: 0 auto; padding: 0 24px 100px; }
+        .article-body h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid var(--border); }
+        .article-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+        .article-body h3 { font-size: 18px; font-weight: 700; margin: 32px 0 12px; color: var(--cyan-light); }
+        .article-body p { font-size: 16px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px; }
+        .article-body ul, .article-body ol { margin: 0 0 20px 24px; color: var(--text-secondary); }
+        .article-body li { font-size: 16px; line-height: 1.8; margin-bottom: 8px; }
+        .article-body strong { color: var(--text-primary); font-weight: 600; }
+        .article-body a { color: var(--cyan); border-bottom: 1px solid rgba(14,165,233,0.3); transition: border-color 0.3s; }
+        .article-body a:hover { border-bottom-color: var(--cyan); }
+
+        .info-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin: 28px 0; }
+        .info-box-title { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 12px; }
+
+        .check-list { list-style: none; margin-left: 0; padding: 0; }
+        .check-list li { padding-left: 28px; position: relative; }
+        .check-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 16px; height: 16px; border-radius: 50%; background: rgba(14, 165, 233, 0.12); border: 1.5px solid var(--cyan); }
+        .check-list li::after { content: ''; position: absolute; left: 4px; top: 14px; width: 8px; height: 4px; border-left: 2px solid var(--cyan); border-bottom: 2px solid var(--cyan); transform: rotate(-45deg); }
+
+        .related { padding: 0 24px 100px; max-width: 1200px; margin: 0 auto; }
+        .related h2 { font-size: 24px; font-weight: 700; margin-bottom: 32px; text-align: center; border-top: none; padding-top: 0; }
+        .related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .related-card { display: flex; flex-direction: column; padding: 28px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-decoration: none; color: inherit; }
+        .related-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 30px var(--cyan-glow); }
+        .related-card .blog-card-tag { display: inline-block; width: fit-content; padding: 4px 12px; background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 12px; }
+        .related-card h3 { font-size: 16px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; transition: color 0.3s; }
+        .related-card:hover h3 { color: var(--cyan-light); }
+        .related-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+        .article-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; text-align: center; margin: 48px 0; }
+        .article-cta h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+        .article-cta p { color: var(--text-secondary); margin-bottom: 24px; font-size: 15px; }
+        .article-cta .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--cyan); color: #000; font-family: var(--font-body); font-size: 14px; font-weight: 600; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; }
+        .article-cta .btn:hover { background: var(--cyan-light); box-shadow: 0 0 30px var(--cyan-glow); }
+
+        .footer { border-top: 1px solid var(--border); padding: 40px 0; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--text-muted); }
+        .footer a { color: var(--text-secondary); transition: color 0.3s; }
+        .footer a:hover { color: var(--cyan); }
+        .footer-links { display: flex; gap: 24px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-mobile-toggle { display: block; }
+            .nav-mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: rgba(5, 8, 16, 0.97); backdrop-filter: blur(20px); z-index: 99; padding: 32px 24px; }
+            .nav-mobile-menu.open { display: flex; flex-direction: column; gap: 8px; }
+            .nav-mobile-menu a { display: block; padding: 16px 0; font-size: 18px; font-weight: 600; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+            .related-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; text-align: center; gap: 16px; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Контроль въезда на территорию предприятия: автоматизация с ANPR камерой",
+        "description": "Как организовать автоматический контроль въезда транспорта на территорию предприятия в Казахстане. ANPR камера, белый/чёрный списки, гостевые пропуска и аналитика.",
+        "datePublished": "2026-04-09",
+        "author": { "@type": "Organization", "name": "KZ Smart Gate", "url": "https://smartgate.kz" },
+        "publisher": { "@type": "Organization", "name": "KZ Smart Gate", "url": "https://smartgate.kz" }
+    }
+    </script>
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><div class="nav-logo-icon">SG</div>KZ Smart<span class="gradient-text"> Gate</span></a>
+            <div class="nav-links">
+                <a href="/">Главная</a>
+                <a href="/blog/">Блог</a>
+                <a href="https://app.smartgate.kz" class="btn-nav">Войти</a>
+            </div>
+            <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-mobile-menu').classList.toggle('open')" aria-label="Меню">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+        </div>
+        <div class="nav-mobile-menu">
+            <a href="/">Главная</a>
+            <a href="/blog/">Блог</a>
+            <a href="https://app.smartgate.kz">Войти в систему</a>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <header class="article-header">
+                <div class="container">
+                    <div class="tag">Бизнес</div>
+                    <h1>Контроль въезда на территорию предприятия: автоматизация с ANPR камерой</h1>
+                    <div class="article-meta">
+                        <span>9 апреля 2026</span>
+                        <span>7 мин чтения</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="article-body">
+                <h2>Почему пора менять подход к контролю въезда</h2>
+                <p>Заводы, склады, логистические центры, бизнес-парки — на большинстве предприятий в Казахстане контроль въезда транспорта до сих пор устроен одинаково. На КПП сидит охранник, перед ним журнал или тетрадка. Водитель подъезжает, показывает пропуск, охранник записывает номер и время, поднимает шлагбаум вручную. Иногда вместо тетрадки — Excel-таблица. Иногда пропуска пластиковые, с фотографией. Но суть не меняется: всё держится на человеке.</p>
+                <p>Такой подход создаёт целый набор проблем, которые с ростом предприятия только усиливаются. Транспорта становится больше, КПП не справляются, очереди растут, а руководство по-прежнему не имеет достоверной картины того, что происходит на территории.</p>
+
+                <h2>Проблемы ручного контроля доступа</h2>
+
+                <h3>Очереди на КПП в часы пик</h3>
+                <p>Утром и вечером на проходных предприятий образуются заторы. Охранник физически не может обработать поток из 30-50 машин за 15 минут. Каждый автомобиль — это проверка документов, запись, открытие шлагбаума. На крупных заводах потери рабочего времени из-за очередей на КПП достигают <strong>15-20 минут в день на каждого сотрудника</strong>.</p>
+
+                <h3>Пропуска подделывают и передают</h3>
+                <p>Бумажные и даже пластиковые пропуска легко скопировать. Сотрудник увольняется — пропуск остаётся у него. Или передаёт знакомому. Охранник не в состоянии помнить в лицо всех работников предприятия на 500+ человек, а сверять фотографию каждый раз — значит ещё больше задерживать очередь.</p>
+
+                <h3>Нет точного учёта транспорта</h3>
+                <p>Кто сейчас на территории? Когда приехал конкретный грузовик? Сколько времени провёл на разгрузке? При ручном контроле ответы на эти вопросы — только приблизительные. Записи в журнале неразборчивы, часто неполные, а найти нужную запись за прошлый месяц — задача на полдня.</p>
+
+                <h3>Человеческий фактор</h3>
+                <p>Охранник пропускает знакомых без проверки. Не записывает «своих». Отвлекается на телефон. Ночью задремал. Это не вопрос дисциплины — это ограничения человека, которого посадили выполнять монотонную рутину 12 часов подряд.</p>
+
+                <h3>Нет данных для анализа</h3>
+                <p>Руководитель предприятия не может получить отчёт: сколько машин проехало за неделю, какие подрядчики нарушают график, есть ли закономерности в загрузке КПП. Без данных невозможно оптимизировать логистику, планировать расширение или расследовать инцидент.</p>
+
+                <h2>Как работает автоматический контроль въезда</h2>
+                <p>Принцип прост: на каждом КПП устанавливается <strong>ANPR камера</strong> (камера автоматического распознавания номерных знаков). Когда автомобиль подъезжает к шлагбауму, камера за доли секунды считывает государственный номер, сверяет его с базой допуска и принимает решение.</p>
+                <p>Если номер в белом списке — шлагбаум открывается автоматически. Если в чёрном — доступ блокируется, а оператор получает уведомление. Если номер неизвестен — система может запросить разрешение у оператора или действовать по заранее настроенным правилам.</p>
+                <p>Каждое событие фиксируется: <strong>дата, время, номер автомобиля, фотография, направление движения</strong> (въезд или выезд). Всё сохраняется в облачной системе и доступно руководству через веб-интерфейс — с любого устройства, из любой точки.</p>
+
+                <div class="info-box">
+                    <div class="info-box-title">СКОРОСТЬ</div>
+                    <p>Современная ANPR камера распознаёт номер за <strong>менее 100 миллисекунд</strong>. Автомобиль даже не успевает полностью остановиться — шлагбаум уже поднимается. Пропускная способность КПП вырастает в 3-5 раз по сравнению с ручным контролем.</p>
+                </div>
+
+                <h2>Возможности системы для предприятия</h2>
+
+                <h3>Белый список сотрудников</h3>
+                <p>Номера автомобилей всех сотрудников вносятся в систему. Можно добавлять через веб-интерфейс, импортировать списком или дать сотрудникам самостоятельно зарегистрироваться по QR-коду. Уволился человек — номер удаляется из базы в один клик, и доступ мгновенно прекращается.</p>
+
+                <h3>Чёрный список</h3>
+                <p>Автомобили уволенных сотрудников, нарушителей, нежелательных лиц. При попытке въезда система блокирует доступ и отправляет уведомление охране. Номер, фотография, время — всё фиксируется для дальнейшего разбора.</p>
+
+                <h3>Гостевые пропуска</h3>
+                <p>Для подрядчиков, поставщиков и посетителей создаются <strong>временные разрешения</strong> — с указанием дат, времени и количества разрешённых визитов. Не нужно печатать бумажные пропуска и передавать их через курьера. Достаточно внести номер в систему — и гость проезжает автоматически. По истечении срока доступ закрывается сам.</p>
+
+                <h3>Зоны доступа</h3>
+                <p>Крупное предприятие — это несколько зон: офис, производство, склад, открытая стоянка. Для каждой зоны можно настроить <strong>свои правила допуска</strong>. Сотрудники офиса проезжают на парковку, но не на склад. Грузовые машины подрядчиков — только к зоне погрузки. Каждая камера привязана к конкретной зоне.</p>
+
+                <h3>Отчёты и аналитика</h3>
+                <p>В любой момент руководитель видит: <strong>кто сейчас на территории</strong>, сколько автомобилей въехало за день, неделю, месяц. История по каждому номеру — когда въезжал, сколько находился, через какое КПП выехал. Данные экспортируются для дальнейшего анализа.</p>
+
+                <h3>Уведомления в реальном времени</h3>
+                <p>Система отправляет оповещения ответственным лицам: попытка въезда из чёрного списка, неизвестный автомобиль на территории, регистрация нового транспортного средства. Уведомления приходят в Telegram — удобно для оперативного реагирования.</p>
+
+                <h2>Интеграция с существующей инфраструктурой</h2>
+                <p>Автоматизация контроля въезда не требует сноса и перестройки всего КПП. Система встраивается в то, что уже есть.</p>
+                <ul>
+                    <li><strong>Шлагбаумы и ворота</strong> — камера подключается к любому шлагбауму или приводу ворот через сухой контакт (IO-выход). Не нужен дополнительный контроллер</li>
+                    <li><strong>Сеть предприятия</strong> — камера работает по стандартному Ethernet. Подключается к существующему коммутатору или роутеру</li>
+                    <li><strong>Видеонаблюдение</strong> — параллельно с распознаванием номеров камера ведёт видеозапись. Поддерживает ONVIF и RTSP — подключается к вашему видеорегистратору</li>
+                    <li><strong>ERP и 1С</strong> — через открытый API система интегрируется с корпоративными системами: автоматическая сверка списка сотрудников, фиксация прибытия грузов, учёт рабочего времени по факту проезда через КПП</li>
+                </ul>
+
+                <h2>Сценарии применения</h2>
+
+                <h3>Завод и производство</h3>
+                <p>На промышленном предприятии ежедневно проходят десятки грузовых автомобилей: поставщики сырья, вывоз готовой продукции, подрядчики. Система фиксирует время прибытия и убытия каждого грузовика, что позволяет контролировать соблюдение графика поставок и рассчитывать время простоя.</p>
+
+                <h3>Логистический центр</h3>
+                <p>Для склада критично знать, какая фура стоит на какой рампе и сколько времени занимает погрузка. ANPR камеры на въезде и выезде дают точную статистику оборачиваемости транспорта. Диспетчер видит загрузку в реальном времени и может распределять машины по свободным рампам.</p>
+
+                <h3>Бизнес-парк</h3>
+                <p>В бизнес-парке с несколькими арендаторами каждая компания получает свой список допуска. Арендатор сам управляет номерами своих сотрудников через веб-интерфейс. Управляющая компания видит общую картину по всему парку, не вмешиваясь в настройки каждого арендатора.</p>
+
+                <h3>Государственные учреждения</h3>
+                <p>Строгий учёт каждого визита. Журнал событий с фотографиями хранится в системе и доступен для аудита. Гостевые пропуска оформляются заранее, с указанием цели визита. При необходимости данные передаются службе безопасности в электронном виде.</p>
+
+                <h2>Автономная работа: что происходит при отключении интернета</h2>
+                <p>Это один из самых частых вопросов от предприятий, расположенных за городом или в промышленных зонах с нестабильным интернетом. Ответ простой: <strong>система продолжает работать</strong>.</p>
+                <p>ANPR камера хранит <strong>белый список номеров в собственной памяти</strong> — до 10 000 записей. При пропадании связи с сервером камера продолжает распознавать номера, сверять их со списком и открывать шлагбаум. Все события записываются в локальное хранилище.</p>
+                <p>Когда связь восстанавливается, накопленные события автоматически передаются на сервер. Никаких потерь данных, никаких ручных действий. Охранник вообще может не заметить, что интернет пропадал — КПП работает как обычно.</p>
+
+                <div class="info-box">
+                    <div class="info-box-title">СИНХРОНИЗАЦИЯ</div>
+                    <p>Белый список на камере обновляется автоматически при каждом изменении: добавили сотрудника — номер через секунды появляется в памяти камеры. Удалили — пропадает. Даже если в этот момент интернет пропал, синхронизация произойдёт при восстановлении связи.</p>
+                </div>
+
+                <h2>Частые вопросы</h2>
+
+                <h3>Камера распознаёт грузовые номера?</h3>
+                <p>Да. Камера работает со всеми типами номерных знаков, используемых в Казахстане, — легковые, грузовые, прицепные, специальные. Также поддерживаются номера стран СНГ и более 130 стран мира. Для грузового транспорта рекомендуется устанавливать камеру на высоте 1.5-1.7 м от уровня дороги.</p>
+
+                <h3>Можно ли интегрировать с 1С?</h3>
+                <p>Да. Платформа KZ Smart Gate предоставляет открытый REST API, через который можно получать данные о событиях въезда/выезда, списки транспорта, статусы пропусков. Интеграция с 1С реализуется через стандартные HTTP-запросы — ваш программист 1С сможет настроить обмен данными за 1-2 рабочих дня.</p>
+
+                <h3>Сколько камер нужно для моего предприятия?</h3>
+                <p>Базовое правило: <strong>одна камера на одну полосу движения</strong>. Если на КПП одна полоса для въезда и одна для выезда — нужно две камеры. Для крупного предприятия с несколькими КПП и зонами количество камер определяется на этапе проектирования. Мы бесплатно проконсультируем и подготовим схему размещения под вашу территорию.</p>
+
+                <div class="article-cta">
+                    <h3>Хотите автоматизировать контроль въезда?</h3>
+                    <p>Расскажите о вашем предприятии — мы подготовим решение с расчётом стоимости, схемой размещения камер и сроками внедрения.</p>
+                    <a href="mailto:info@smartgate.kz" class="btn">Написать: info@smartgate.kz</a>
+                </div>
+            </div>
+        </article>
+
+        <section class="related">
+            <h2>Читайте также</h2>
+            <div class="related-grid">
+                <a href="/blog/kupit-anpr-kameru-kazakhstan.html" class="related-card">
+                    <div class="blog-card-tag">Оборудование</div>
+                    <h3>Купить ANPR камеру в Казахстане: камера распознавания номеров для парковки и шлагбаума</h3>
+                    <p>Характеристики, преимущества и применение профессиональной ANPR камеры 5MP.</p>
+                </a>
+                <a href="/blog/avtomaticheskiy-shlagbaum-s-raspoznavaniem-nomerov.html" class="related-card">
+                    <div class="blog-card-tag">Паркинг</div>
+                    <h3>Автоматический шлагбаум с распознаванием номеров для ЖК</h3>
+                    <p>Как организовать автоматический въезд в жилой комплекс без пультов и карт.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 KZ Smart Gate. Все права защищены.</span>
+            <div class="footer-links">
+                <a href="/">Главная</a>
+                <a href="/blog/">Блог</a>
+                <a href="https://app.smartgate.kz">Платформа</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
