@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3910NFPPM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-B3910NFPPM');
+    </script>
+    <title>Как мы автоматизируем доступ к объекту в Казахстане — оборудование и платформа SmartGate</title>
+    <meta name="description" content="Автоматизация въезда на бизнес-центры, ЖК, паркинги и предприятия в Астане, Алматы, Шымкенте. ANPR-камера, шлагбаум 6 м, панель вызова. Любые режимы доступа настраиваются в SmartGate.kz.">
+    <meta name="keywords" content="автоматизация доступа объект, контроль въезда Казахстан, ANPR камера Астана, шлагбаум с распознаванием номеров, SmartGate оборудование, контроль доступа бизнес-центр Алматы, автоматизация парковки Шымкент, платформа управления доступом">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="4b9iuNLSzcFWWpySPKEH_xB7DP66U8U_wah2XqoXc5c">
+    <link rel="canonical" href="https://smartgate.kz/blog/kak-my-avtomatiziruem-dostup-k-obektu.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://smartgate.kz/blog/kak-my-avtomatiziruem-dostup-k-obektu.html">
+    <meta property="og:title" content="Как мы автоматизируем доступ к объекту — оборудование и платформа SmartGate">
+    <meta property="og:description" content="ANPR-камера, шлагбаум 6 метров, панель вызова и платформа SmartGate.kz. Любые режимы доступа: свободный, по договору, гостевой, платный.">
+    <meta property="og:image" content="https://smartgate.kz/blog/images/smartgate-vision-panel-pro-anpr.jpg">
+    <meta property="og:locale" content="ru_KZ">
+    <meta property="article:published_time" content="2026-05-11">
+    <meta property="article:author" content="KZ Smart Gate">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0f1a'/%3E%3Crect width='32' height='32' rx='7' fill='none' stroke='%230ea5e9' stroke-width='1.5' opacity='0.6'/%3E%3Ctext x='16' y='22' font-family='system-ui' font-size='14' font-weight='800' fill='%230ea5e9' text-anchor='middle'%3ESG%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-deep: #050810; --bg-primary: #0b0f1a; --bg-card: #0f1629;
+            --bg-card-hover: #131b33;
+            --cyan: #0ea5e9; --cyan-light: #38bdf8; --cyan-pale: #7dd3fc;
+            --cyan-glow: rgba(14, 165, 233, 0.15);
+            --text-primary: #e2e8f0; --text-secondary: #94a3b8; --text-muted: #64748b;
+            --border: rgba(14, 165, 233, 0.12); --border-hover: rgba(14, 165, 233, 0.3);
+            --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+        a { color: inherit; text-decoration: none; }
+        .gradient-text { background: linear-gradient(135deg, var(--cyan), var(--cyan-light), var(--cyan-pale)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; background: rgba(5, 8, 16, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+        .nav-logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+        .nav-logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(14,165,233,0.05)); border: 1px solid rgba(14,165,233,0.25); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--cyan); }
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+        .nav-links a { padding: 8px 16px; font-size: 14px; font-weight: 500; color: var(--text-secondary); border-radius: 8px; transition: color 0.3s, background 0.3s; }
+        .nav-links a:hover { color: var(--text-primary); background: rgba(14,165,233,0.06); }
+        .btn-nav { padding: 10px 22px; font-size: 13px; font-weight: 600; font-family: var(--font-body); background: var(--cyan); color: #000; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
+        .btn-nav:hover { background: var(--cyan-light); box-shadow: 0 0 20px var(--cyan-glow); }
+        .nav-mobile-toggle { display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; padding: 8px; }
+        .nav-mobile-toggle svg { width: 24px; height: 24px; }
+        .nav-mobile-menu { display: none; }
+
+        .article-header { padding: 140px 0 40px; text-align: center; }
+        .article-header .tag { display: inline-block; padding: 4px 14px; background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 20px; }
+        .article-header h1 { font-size: clamp(28px, 4.5vw, 44px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 16px; max-width: 820px; margin-left: auto; margin-right: auto; }
+        .article-meta { display: flex; justify-content: center; gap: 24px; font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+
+        .article-body { max-width: 720px; margin: 0 auto; padding: 0 24px 100px; }
+        .article-body h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin: 48px 0 16px; padding-top: 32px; border-top: 1px solid var(--border); }
+        .article-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+        .article-body h3 { font-size: 18px; font-weight: 700; margin: 32px 0 12px; color: var(--cyan-light); }
+        .article-body p { font-size: 16px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px; }
+        .article-body ul, .article-body ol { margin: 0 0 20px 24px; color: var(--text-secondary); }
+        .article-body li { font-size: 16px; line-height: 1.8; margin-bottom: 8px; }
+        .article-body strong { color: var(--text-primary); font-weight: 600; }
+        .article-body a { color: var(--cyan); border-bottom: 1px solid rgba(14,165,233,0.3); transition: border-color 0.3s; }
+        .article-body a:hover { border-bottom-color: var(--cyan); }
+
+        .info-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin: 28px 0; }
+        .info-box-title { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 12px; }
+
+        .device-card { display: grid; grid-template-columns: 240px 1fr; gap: 28px; align-items: start; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin: 28px 0; }
+        .device-card .device-image { background: linear-gradient(180deg, #0a1224, #060a14); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: center; }
+        .device-card .device-image img { width: 100%; height: auto; max-height: 320px; object-fit: contain; display: block; }
+        .device-card .device-content h3 { margin-top: 0; color: var(--cyan-light); }
+        .device-card .device-content p { font-size: 15px; margin-bottom: 12px; }
+        .device-card .device-content ul { margin-top: 8px; }
+
+        .check-list { list-style: none; margin-left: 0; padding: 0; }
+        .check-list li { padding-left: 28px; position: relative; }
+        .check-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 16px; height: 16px; border-radius: 50%; background: rgba(14, 165, 233, 0.12); border: 1.5px solid var(--cyan); }
+        .check-list li::after { content: ''; position: absolute; left: 4px; top: 14px; width: 8px; height: 4px; border-left: 2px solid var(--cyan); border-bottom: 2px solid var(--cyan); transform: rotate(-45deg); }
+
+        .mode-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0 32px; }
+        .mode-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+        .mode-item .mode-label { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 8px; }
+        .mode-item .mode-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+        .mode-item .mode-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        .related { padding: 0 24px 100px; max-width: 1200px; margin: 0 auto; }
+        .related h2 { font-size: 24px; font-weight: 700; margin-bottom: 32px; text-align: center; border-top: none; padding-top: 0; }
+        .related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .related-card { display: flex; flex-direction: column; padding: 28px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-decoration: none; color: inherit; }
+        .related-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 30px var(--cyan-glow); }
+        .related-card .blog-card-tag { display: inline-block; width: fit-content; padding: 4px 12px; background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 12px; }
+        .related-card h3 { font-size: 16px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; transition: color 0.3s; }
+        .related-card:hover h3 { color: var(--cyan-light); }
+        .related-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+        .article-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; text-align: center; margin: 48px 0; }
+        .article-cta h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+        .article-cta p { color: var(--text-secondary); margin-bottom: 24px; font-size: 15px; }
+        .article-cta .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--cyan); color: #000; font-family: var(--font-body); font-size: 14px; font-weight: 600; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; }
+        .article-cta .btn:hover { background: var(--cyan-light); box-shadow: 0 0 30px var(--cyan-glow); }
+
+        .footer { border-top: 1px solid var(--border); padding: 40px 0; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--text-muted); }
+        .footer a { color: var(--text-secondary); transition: color 0.3s; }
+        .footer a:hover { color: var(--cyan); }
+        .footer-links { display: flex; gap: 24px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-mobile-toggle { display: block; }
+            .nav-mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: rgba(5, 8, 16, 0.97); backdrop-filter: blur(20px); z-index: 99; padding: 32px 24px; }
+            .nav-mobile-menu.open { display: flex; flex-direction: column; gap: 8px; }
+            .nav-mobile-menu a { display: block; padding: 16px 0; font-size: 18px; font-weight: 600; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+            .mode-grid { grid-template-columns: 1fr; }
+            .related-grid { grid-template-columns: 1fr; }
+            .device-card { grid-template-columns: 1fr; }
+            .device-card .device-image { max-width: 240px; margin: 0 auto; }
+            .footer-inner { flex-direction: column; text-align: center; gap: 16px; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Как мы автоматизируем доступ к объекту в Казахстане — оборудование и платформа SmartGate",
+        "description": "Автоматизация въезда на бизнес-центры, ЖК, паркинги и предприятия в Астане, Алматы, Шымкенте. ANPR-камера, шлагбаум 6 м, панель вызова. Любые режимы доступа настраиваются в SmartGate.kz.",
+        "datePublished": "2026-05-11",
+        "author": { "@type": "Organization", "name": "KZ Smart Gate", "url": "https://smartgate.kz" },
+        "publisher": { "@type": "Organization", "name": "KZ Smart Gate", "url": "https://smartgate.kz" },
+        "image": "https://smartgate.kz/blog/images/smartgate-vision-panel-pro-anpr.jpg",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://smartgate.kz/blog/kak-my-avtomatiziruem-dostup-k-obektu.html" },
+        "inLanguage": "ru-KZ",
+        "about": [
+            { "@type": "Thing", "name": "Автоматизация доступа" },
+            { "@type": "Thing", "name": "Распознавание номеров" },
+            { "@type": "Thing", "name": "Контроль въезда" }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://smartgate.kz/" },
+            { "@type": "ListItem", "position": 2, "name": "Блог", "item": "https://smartgate.kz/blog/" },
+            { "@type": "ListItem", "position": 3, "name": "Как мы автоматизируем доступ к объекту", "item": "https://smartgate.kz/blog/kak-my-avtomatiziruem-dostup-k-obektu.html" }
+        ]
+    }
+    </script>
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo"><div class="nav-logo-icon">SG</div>KZ Smart<span class="gradient-text"> Gate</span></a>
+            <div class="nav-links">
+                <a href="/">Главная</a>
+                <a href="/blog/">Блог</a>
+                <a href="https://app.smartgate.kz" class="btn-nav">Войти</a>
+            </div>
+            <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-mobile-menu').classList.toggle('open')" aria-label="Меню">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+        </div>
+        <div class="nav-mobile-menu">
+            <a href="/">Главная</a>
+            <a href="/blog/">Блог</a>
+            <a href="https://app.smartgate.kz">Войти в систему</a>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <header class="article-header">
+                <div class="container">
+                    <div class="tag">Решение</div>
+                    <h1>Как мы автоматизируем доступ к объекту в&nbsp;Казахстане</h1>
+                    <div class="article-meta">
+                        <span>11 мая 2026</span>
+                        <span>5 мин чтения</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="article-body">
+                <h2>Один комплект — любой сценарий</h2>
+                <p>Бизнес-центр в Астане, жилой комплекс в Алматы, складская база в Шымкенте, коттеджный посёлок под Карагандой — у каждого объекта свои правила въезда. Но базовое оборудование одинаковое: <strong>ANPR-камера, шлагбаум, панель связи с оператором</strong> и платформа управления. Меняется только настройка — режим доступа, тарифы, права пользователей.</p>
+                <p>Рассказываем, из чего собирается наше решение и как один и тот же набор оборудования закрывает разные задачи — от свободного въезда жильцов до платной парковки для гостей.</p>
+
+                <h2>Оборудование на одном КПП</h2>
+
+                <div class="device-card">
+                    <div class="device-image">
+                        <img src="/blog/images/smartgate-vision-panel-pro-anpr.jpg" alt="SmartGate Vision Panel Pro-ANPR — экранный блок с AI-камерой для распознавания номеров" width="800" height="1200" loading="lazy">
+                    </div>
+                    <div class="device-content">
+                        <h3>SmartGate Vision Panel Pro-ANPR</h3>
+                        <p>Экранный блок со встроенной AI-камерой автоматического распознавания государственных номерных знаков. Распознаёт номер, выводит результат на экран и подаёт команду на шлагбаум.</p>
+                        <ul class="check-list">
+                            <li>Распознавание ANPR/LPR в реальном времени</li>
+                            <li>Информационный экран для водителя</li>
+                            <li>Промышленное исполнение, работа 24/7</li>
+                            <li>Автономный режим — без постоянного интернета</li>
+                            <li>Поддержка whitelist разрешённых номеров</li>
+                        </ul>
+                        <p>На каждом КПП — два таких устройства: одно на въезд, второе на выезд. Это позволяет учитывать сценарий, когда автомобиль заехал через один пункт, а выезжает через другой.</p>
+                    </div>
+                </div>
+
+                <div class="device-card">
+                    <div class="device-image">
+                        <img src="/blog/images/smartgate-barrier-6m.jpg" alt="Автоматический шлагбаум SmartGate Barrier 6M длиной 6 метров для промышленных КПП" width="800" height="1455" loading="lazy">
+                    </div>
+                    <div class="device-content">
+                        <h3>SmartGate Barrier 6M</h3>
+                        <p>Автоматический шлагбаум промышленного класса со стрелой 6 метров. Открывается по команде от ANPR-камеры или вручную оператором.</p>
+                        <ul class="check-list">
+                            <li>Стрела до 6 метров — широкие проезды</li>
+                            <li>Высокая скорость срабатывания</li>
+                            <li>Работа при −30°C…+50°C — дождь, снег, мороз</li>
+                            <li>Ручное управление через платформу при необходимости</li>
+                            <li>Совместимость с любыми системами контроля доступа</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>SmartGate Call Panel</h3>
+                <p>Панель вызова для голосовой связи водителя с оператором или службой охраны. Нужна для тех случаев, когда камера не узнала номер: например, гость без пропуска, грузовая машина с грязным номером, посетитель на такси. Оператор видит фото с камеры, принимает решение и открывает шлагбаум через платформу.</p>
+
+                <h2>Любой режим доступа — настраивается в SmartGate.kz</h2>
+                <p>Главное в системе — не «железо», а <strong>платформа SmartGate.kz</strong>. Один и тот же комплект оборудования работает по любому сценарию. Режим выбирается в личном кабинете на объекте — и меняется в любой момент без выезда монтажника.</p>
+
+                <div class="mode-grid">
+                    <div class="mode-item">
+                        <div class="mode-label">РЕЖИМ 1</div>
+                        <div class="mode-title">Свободный въезд</div>
+                        <div class="mode-desc">Шлагбаум открывается всем. Камера фиксирует номер для журнала событий и статистики.</div>
+                    </div>
+                    <div class="mode-item">
+                        <div class="mode-label">РЕЖИМ 2</div>
+                        <div class="mode-title">Только зарегистрированные</div>
+                        <div class="mode-desc">Жильцы ЖК, сотрудники предприятия, арендаторы БЦ. Чужим — отказ.</div>
+                    </div>
+                    <div class="mode-item">
+                        <div class="mode-label">РЕЖИМ 3</div>
+                        <div class="mode-title">Только по договору</div>
+                        <div class="mode-desc">Арендаторы паркомест, корпоративные клиенты. Срок и лимит въездов — на каждый договор.</div>
+                    </div>
+                    <div class="mode-item">
+                        <div class="mode-label">РЕЖИМ 4</div>
+                        <div class="mode-title">Платный въезд</div>
+                        <div class="mode-desc">Свои — бесплатно по белому списку, гости — оплата через Kaspi по QR.</div>
+                    </div>
+                </div>
+
+                <p>К любому режиму добавляются <strong>гостевые пропуска</strong> (по номеру машины или по ссылке в WhatsApp), <strong>чёрный список</strong> для нежелательных автомобилей и <strong>журнал событий</strong> с фото каждого проезда. Всё хранится в SmartGate.kz, доступно с компьютера или телефона.</p>
+
+                <h2>Как работает проезд</h2>
+                <ol>
+                    <li><strong>Машина подъезжает к шлагбауму.</strong> Камера SmartGate Vision Panel Pro-ANPR распознаёт номер за доли секунды и выводит его на экран водителю.</li>
+                    <li><strong>Платформа SmartGate.kz проверяет доступ.</strong> Свой / гость / по договору / нужна оплата — решение принимается по правилам объекта.</li>
+                    <li><strong>Шлагбаум открывается автоматически</strong> — если доступ разрешён. Если нет — водитель видит на экране причину (например, «требуется оплата») и инструкцию.</li>
+                    <li><strong>Запись попадает в журнал</strong> с фото, временем и решением. Администратор объекта видит всё в кабинете.</li>
+                </ol>
+
+                <div class="info-box">
+                    <div class="info-box-title">АВТОНОМНОСТЬ</div>
+                    <p>Если на объекте пропал интернет — камера продолжает открывать шлагбаум по локальному белому списку до 10 000 номеров. Все события сохраняются и синхронизируются с SmartGate.kz, как только связь восстановится. Для казахстанских реалий это критично — особенно для объектов в пригородах и на удалённых площадках.</p>
+                </div>
+
+                <h2>Где применяется</h2>
+                <ul class="check-list">
+                    <li><strong>Бизнес-центры</strong> в Астане, Алматы, Шымкенте — арендаторы по договорам, гости платно или по приглашению</li>
+                    <li><strong>Жилые комплексы</strong> — жильцы по белому списку, гости через мобильное приложение жильца</li>
+                    <li><strong>Платные парковки</strong> у ТРЦ, аэропортов, медцентров — оплата Kaspi по QR на экране</li>
+                    <li><strong>Промышленные предприятия, склады, базы</strong> — корпоративный транспорт по договорам, контроль выезда гружёных машин</li>
+                    <li><strong>Коттеджные посёлки и КСК</strong> в окрестностях Астаны, Алматы, Караганды — общие ворота для жителей</li>
+                    <li><strong>Госучреждения и парковки сотрудников</strong> — служебный транспорт по белому списку, гостевые по приглашению</li>
+                </ul>
+
+                <h2>Что входит «под ключ»</h2>
+                <p>Мы поставляем не отдельные устройства, а готовое решение:</p>
+                <ul class="check-list">
+                    <li>Оборудование на каждый КПП — две камеры Vision Panel Pro-ANPR, шлагбаум Barrier 6M, панель вызова</li>
+                    <li>Монтаж, прокладка кабелей, пуско-наладка</li>
+                    <li>Подключение к платформе SmartGate.kz и настройка под ваши правила доступа</li>
+                    <li>Бесплатная интеграция оплаты через Kaspi Pay (для платных режимов)</li>
+                    <li>Техническая поддержка, обновления платформы и консультации — в том числе через WhatsApp</li>
+                    <li>Гарантия на оборудование 12 месяцев</li>
+                </ul>
+                <p>Если у вас уже есть шлагбаум или ворота — мы интегрируемся с тем, что есть. Платформа SmartGate.kz <strong>совместима со сторонним оборудованием</strong>, если у него есть интерфейс управления. Это позволяет автоматизировать объект без замены того, что уже работает.</p>
+
+                <div class="article-cta">
+                    <h3>Хотите автоматизировать доступ на свой объект?</h3>
+                    <p>Подберём оборудование и режим доступа под ваш сценарий — будь то ЖК, бизнес-центр, паркинг или предприятие. Работаем по всему Казахстану: Астана, Алматы, Шымкент, Караганда, Актобе и другие города.</p>
+                    <a href="mailto:info@smartgate.kz" class="btn">Написать: info@smartgate.kz</a>
+                </div>
+            </div>
+        </article>
+
+        <section class="related">
+            <h2>Читайте также</h2>
+            <div class="related-grid">
+                <a href="/blog/avtomaticheskiy-shlagbaum-s-raspoznavaniem-nomerov.html" class="related-card">
+                    <div class="blog-card-tag">Паркинг</div>
+                    <h3>Автоматический шлагбаум с распознаванием номеров для ЖК</h3>
+                    <p>Как убрать пульты и карточки из жилого комплекса: камера узнаёт жильца за полсекунды.</p>
+                </a>
+                <a href="/blog/skolko-stoit-avtomatizaciya-parkovki.html" class="related-card">
+                    <div class="blog-card-tag">Стоимость</div>
+                    <h3>Сколько стоит автоматизация парковки</h3>
+                    <p>Оборудование, монтаж, абонентская плата — из чего складывается бюджет проекта.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 KZ Smart Gate. Все права защищены.</span>
+            <div class="footer-links">
+                <a href="/">Главная</a>
+                <a href="/blog/">Блог</a>
+                <a href="https://app.smartgate.kz">Платформа</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
